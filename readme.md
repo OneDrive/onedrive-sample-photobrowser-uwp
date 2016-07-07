@@ -15,8 +15,8 @@ To run the sample, you will need:
 
 ### Download the sample
 
-1. Download the sample from [GitHub](https://github.com/OneDrive/onedrive-sdk-csharp) by choosing **Clone in Desktop** or **Download Zip**. 
-2. In Visual Studio, open the **OneDriveSdk.sln** file and build it.
+1. Download the sample from [GitHub](https://github.com/OneDrive/onedrive-sample-photobrowser-uwp) by choosing **Clone in Desktop** or **Download Zip**. 
+2. In Visual Studio, open the **OneDrivePhotoBrowser.sln** file and build it.
 
 ## OneDrive Consumer configuration
 
@@ -94,11 +94,13 @@ items = childrenPage == null
 
 ## More resources
 
-* [OneDrive SDK for CSharp](https://github.com/OneDrive/onedrive-sdk-csharp) documentation
+* [OneDrive SDK for .NET](https://github.com/OneDrive/onedrive-sdk-csharp) documentation
 * [OneDrive API](https://dev.onedrive.com/) - Official documentation for the OneDrive API
-* [OneDriveApiBrowser](https://github.com/OneDrive/onedrive-sdk-csharp/tree/master/samples/OneDriveApiBrowser) - A Windows Forms sample app using OneDrive SDK for CSharp 
+* [OneDriveApiBrowser](https://github.com/OneDrive/onedrive-sample-apibrowser-dotnet) - A Windows Forms sample app using OneDrive SDK for CSharp 
 * [Windows Universal apps](https://msdn.microsoft.com/en-us/library/windows/apps/dn726767.aspx) - More information about Windows Universal apps
 
-## Copyright
+## License
 
-Copyright (c) Microsoft. All rights reserved.
+[License](LICENSE.txt)
+
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
