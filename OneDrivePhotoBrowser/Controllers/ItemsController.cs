@@ -23,6 +23,7 @@
 namespace OneDrivePhotoBrowser.Controllers
 {
     using Microsoft.OneDrive.Sdk;
+    using Microsoft.OneDrive.Sdk.Authentication;
     using Models;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -49,7 +50,9 @@ namespace OneDrivePhotoBrowser.Controllers
             
             IEnumerable<Item> items;
 
-            var expandString = this.oneDriveClient.ClientType == ClientType.Consumer
+            var msaAuthProvider = this.oneDriveClient.AuthenticationProvider as MsaAuthenticationProvider;
+
+            var expandString = msaAuthProvider != null
                 ? "thumbnails,children(expand=thumbnails)"
                 : "thumbnails, children";
 
