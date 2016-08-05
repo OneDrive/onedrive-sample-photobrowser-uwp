@@ -49,10 +49,8 @@ namespace OneDrivePhotoBrowser.Controllers
             ObservableCollection<ItemModel> results = new ObservableCollection<ItemModel>();
             
             IEnumerable<Item> items;
-
-            var msaAuthProvider = this.oneDriveClient.AuthenticationProvider as MsaAuthenticationProvider;
-
-            var expandString = msaAuthProvider != null
+            
+            var expandString = this.oneDriveClient.AuthenticationProvider is MsaAuthenticationProvider
                 ? "thumbnails,children(expand=thumbnails)"
                 : "thumbnails, children";
 

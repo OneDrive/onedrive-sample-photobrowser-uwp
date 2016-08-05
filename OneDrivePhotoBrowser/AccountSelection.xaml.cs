@@ -90,7 +90,6 @@ namespace OneDrivePhotoBrowser
 
         private void AadButton_Click(object sender, RoutedEventArgs e)
         {
-            
             this.InitializeClient(ClientType.Business, e);
         }
 
@@ -101,7 +100,7 @@ namespace OneDrivePhotoBrowser
 
         private async void InitializeClient(ClientType clientType, RoutedEventArgs e)
         {
-            var app = ((App) Application.Current);
+            var app = (App) Application.Current;
             if (app.OneDriveClient == null)
             {
                 Task authTask;
