@@ -22,13 +22,16 @@
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
+
 namespace OneDrivePhotoBrowser
 {
+    using Microsoft.Graph;
+    using Microsoft.OneDrive.Sdk;
+    using Microsoft.OneDrive.Sdk.Authentication;
+    using Models;
     using System;
     using System.Diagnostics;
-
-    using Microsoft.OneDrive.Sdk;
-    using Models;
+    using System.Threading.Tasks;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     
@@ -37,11 +40,21 @@ namespace OneDrivePhotoBrowser
     /// </summary>
     public sealed partial class AccountSelection : Page
     {
-        private readonly string[] scopes = new string[] { "onedrive.readonly", "wl.signin" };
-
+        private enum ClientType
+        {
+            Business,
+            Consumer
+        }
+        
         // Set these values to your app's ID and return URL.
-        private readonly string oneDriveForBusinessClientId = "Insert your AAD client ID here";
-        private readonly string oneDriveForBusinessReturnUrl = "Insert your AAD return URL here";
+        private readonly string oneDriveForBusinessClientId = "Insert your OneDrive for Business client id";
+        private readonly string oneDriveForBusinessReturnUrl = "http://localhost:8080";
+        private readonly string oneDriveForBusinessBaseUrl = "https://graph.microsoft.com/";
+
+        private readonly string oneDriveConsumerClientId = "Insert your OneDrive Consumer client id";
+        private readonly string oneDriveConsumerReturnUrl = "https://login.live.com/oauth20_desktop.srf";
+        private readonly string oneDriveConsumerBaseUrl = "https://api.onedrive.com/v1.0";
+        private readonly string[] scopes = new string[] { "onedrive.readonly", "wl.signin" };
 
         public AccountSelection()
         {
@@ -51,23 +64,27 @@ namespace OneDrivePhotoBrowser
 
         private async void AccountSelection_Loaded(object sender, RoutedEventArgs e)
         {
-            if (((App)Application.Current).OneDriveClient != null)
+            var app = ((App) Application.Current);
+            if (app.OneDriveClient != null)
             {
-                await ((App)Application.Current).OneDriveClient.SignOutAsync();
-
-                var client = ((App)Application.Current).OneDriveClient as OneDriveClient;
-                if (client != null)
+                var msaAuthProvider = app.AuthProvider as MsaAuthenticationProvider;
+                var adalAuthProvider = app.AuthProvider as AdalAuthenticationProvider;
+                if (msaAuthProvider != null)
                 {
-                    client.Dispose();
+                    await msaAuthProvider.SignOutAsync();
                 }
-
-                ((App)Application.Current).OneDriveClient = null;
+                else if (adalAuthProvider != null)
+                {
+                    await adalAuthProvider.SignOutAsync();
+                }
+                
+                app.OneDriveClient = null;
             }
 
             // Don't show AAD login if the required AAD auth values aren't set
-            if (string.IsNullOrEmpty(oneDriveForBusinessClientId) || string.IsNullOrEmpty(oneDriveForBusinessReturnUrl))
+            if (string.IsNullOrEmpty(this.oneDriveForBusinessClientId) || string.IsNullOrEmpty(this.oneDriveForBusinessReturnUrl))
             {
-                AadButton.Visibility = Visibility.Collapsed;
+                this.AadButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -83,46 +100,46 @@ namespace OneDrivePhotoBrowser
 
         private async void InitializeClient(ClientType clientType, RoutedEventArgs e)
         {
-            if (((App)Application.Current).OneDriveClient == null)
+            var app = (App) Application.Current;
+            if (app.OneDriveClient == null)
             {
-                OneDriveClient client = null;
+                Task authTask;
+
+                if (clientType == ClientType.Business)
+                {
+                    var adalAuthProvider = new AdalAuthenticationProvider(
+                        this.oneDriveForBusinessClientId,
+                        this.oneDriveForBusinessReturnUrl);
+                    authTask = adalAuthProvider.AuthenticateUserAsync(this.oneDriveForBusinessBaseUrl);
+                    app.OneDriveClient = new OneDriveClient(adalAuthProvider);
+                    app.AuthProvider = adalAuthProvider;
+                }
+                else
+                {
+                    var msaAuthProvider = new MsaAuthenticationProvider(
+                        this.oneDriveConsumerClientId,
+                        this.oneDriveConsumerReturnUrl,
+                        this.scopes);
+                    authTask = msaAuthProvider.AuthenticateUserAsync();
+                    app.OneDriveClient = new OneDriveClient(this.oneDriveConsumerBaseUrl, msaAuthProvider);
+                    app.AuthProvider = msaAuthProvider;
+                }
 
                 try
                 {
-                    if (clientType == ClientType.Consumer)
-                    {
-                        client = OneDriveClientExtensions.GetUniversalClient(this.scopes) as OneDriveClient;
-
-                        await client.AuthenticateAsync();
-                    }
-                    else
-                    {
-                        client = await BusinessClientExtensions.GetAuthenticatedClientAsync(
-                            new AppConfig
-                            {
-                                ActiveDirectoryAppId = oneDriveForBusinessClientId,
-                                ActiveDirectoryReturnUrl = oneDriveForBusinessReturnUrl,
-                            }) as OneDriveClient;
-                    }
-
-                    ((App)Application.Current).OneDriveClient = client;
-                    ((App)Application.Current).NavigationStack.Add(new ItemModel(new Item()));
-                    Frame.Navigate(typeof(MainPage), e);
+                    await authTask;
+                    app.NavigationStack.Add(new ItemModel(new Item()));
+                    this.Frame.Navigate(typeof(MainPage), e);
                 }
-                catch (OneDriveException exception)
+                catch (ServiceException exception)
                 {
                     // Swallow the auth exception but write message for debugging.
                     Debug.WriteLine(exception.Error.Message);
-
-                    if (client != null)
-                    {
-                        client.Dispose();
-                    }
                 }
             }
             else
             {
-                Frame.Navigate(typeof(MainPage), e);
+                this.Frame.Navigate(typeof(MainPage), e);
             }
         }
     }

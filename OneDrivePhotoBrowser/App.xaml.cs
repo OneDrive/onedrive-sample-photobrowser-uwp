@@ -20,13 +20,15 @@
 //  THE SOFTWARE.
 // ------------------------------------------------------------------------------
 
+
 namespace OneDrivePhotoBrowser
 {
+    using Microsoft.Graph;
+    using Microsoft.OneDrive.Sdk;
     using Models;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Microsoft.OneDrive.Sdk;
     using Windows.ApplicationModel;
     using Windows.ApplicationModel.Activation;
     using Windows.UI.Core;
@@ -44,6 +46,8 @@ namespace OneDrivePhotoBrowser
         public List<ItemModel> NavigationStack { get; set; }
 
         public IOneDriveClient OneDriveClient { get; set; }
+
+        public IAuthenticationProvider AuthProvider { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
