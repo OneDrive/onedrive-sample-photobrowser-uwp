@@ -54,7 +54,7 @@ namespace OneDrivePhotoBrowser
         private readonly string oneDriveConsumerClientId = "Insert your OneDrive Consumer client id";
         private readonly string oneDriveConsumerReturnUrl = "https://login.live.com/oauth20_desktop.srf";
         private readonly string oneDriveConsumerBaseUrl = "https://api.onedrive.com/v1.0";
-        private readonly string[] scopes = new string[] { "onedrive.readonly", "wl.signin" };
+        private readonly string[] scopes = new string[] { "onedrive.readonly", "wl.signin", "offline_access" };
 
         public AccountSelection()
         {
@@ -119,8 +119,9 @@ namespace OneDrivePhotoBrowser
                     var msaAuthProvider = new MsaAuthenticationProvider(
                         this.oneDriveConsumerClientId,
                         this.oneDriveConsumerReturnUrl,
-                        this.scopes);
-                    authTask = msaAuthProvider.AuthenticateUserAsync();
+                        this.scopes,
+                        new CredentialVault(this.oneDriveConsumerClientId));
+                    authTask = msaAuthProvider.RestoreMostRecentFromCacheOrAuthenticateUserAsync();
                     app.OneDriveClient = new OneDriveClient(this.oneDriveConsumerBaseUrl, msaAuthProvider);
                     app.AuthProvider = msaAuthProvider;
                 }

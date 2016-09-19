@@ -1,9 +1,8 @@
 ﻿{
   "dependencies": {
-    "Microsoft.Graph.Core": "1.0.0-rc6",
+    "Microsoft.IdentityModel.Clients.ActiveDirectory": "2.28.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "Microsoft.OneDrive.Sdk.Authentication": "0.0.14-rc",
-    "Microsoft.OneDriveSDK": "2.0.0-rc4",
+    "Microsoft.OneDriveSDK": "2.0.0",
     "Newtonsoft.Json": "6.0.2"
   },
   "frameworks": {
