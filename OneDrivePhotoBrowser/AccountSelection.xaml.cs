@@ -111,7 +111,7 @@ namespace OneDrivePhotoBrowser
                         this.oneDriveForBusinessClientId,
                         this.oneDriveForBusinessReturnUrl);
                     authTask = adalAuthProvider.AuthenticateUserAsync(this.oneDriveForBusinessBaseUrl);
-                    app.OneDriveClient = new OneDriveClient(adalAuthProvider);
+                    app.OneDriveClient = new OneDriveClient(this.oneDriveForBusinessBaseUrl + "/_api/v2.0", adalAuthProvider);
                     app.AuthProvider = adalAuthProvider;
                 }
                 else
