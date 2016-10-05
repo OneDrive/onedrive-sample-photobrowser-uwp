@@ -38,8 +38,6 @@ namespace OneDrivePhotoBrowser
     public sealed partial class MainPage : Page
     {
         private ItemsController itemsController;
-        
-        private readonly string[] scopes = new string[] { "onedrive.read", "wl.offline_access", "wl.signin" };
 
         public MainPage()
         {

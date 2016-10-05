@@ -43,7 +43,8 @@ namespace OneDrivePhotoBrowser
         private enum ClientType
         {
             Business,
-            Consumer
+            Consumer,
+            ConsumerUwp
         }
         
         // Set these values to your app's ID and return URL.
@@ -98,6 +99,11 @@ namespace OneDrivePhotoBrowser
             this.InitializeClient(ClientType.Consumer, e);
         }
 
+        private void OnlineId_Click(object sender, RoutedEventArgs e)
+        {
+            this.InitializeClient(ClientType.ConsumerUwp, e);
+        }
+
         private async void InitializeClient(ClientType clientType, RoutedEventArgs e)
         {
             var app = (App) Application.Current;
@@ -113,6 +119,14 @@ namespace OneDrivePhotoBrowser
                     authTask = adalAuthProvider.AuthenticateUserAsync(this.oneDriveForBusinessBaseUrl);
                     app.OneDriveClient = new OneDriveClient(this.oneDriveForBusinessBaseUrl + "/_api/v2.0", adalAuthProvider);
                     app.AuthProvider = adalAuthProvider;
+                }
+                else if (clientType == ClientType.ConsumerUwp)
+                {
+                    var onlineIdAuthProvider = new OnlineIdAuthenticationProvider(
+                        this.scopes);
+                    authTask = onlineIdAuthProvider.RestoreMostRecentFromCacheOrAuthenticateUserAsync();
+                    app.OneDriveClient = new OneDriveClient(this.oneDriveConsumerBaseUrl, onlineIdAuthProvider);
+                    app.AuthProvider = onlineIdAuthProvider;
                 }
                 else
                 {
