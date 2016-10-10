@@ -11,6 +11,7 @@ To run the sample, you will need:
 
 * Visual Studio 2013 or 2015, with Universal Windows App Development Tools **Note:** If you don't have Universal Windows App Development Tools installed, open **Control Panel** | **Uninstall a program**. Then right-click **Microsoft Visual Studio** and click **Change**. Select **Modify** and then choose **Universal Windows App Development Tools**. Click **Update**. For more info about setting up your machine for Universal Windows Platform development, see [Build UWP apps with Visual Studio](https://msdn.microsoft.com/en-us/library/windows/apps/dn609832.aspx).
 * A Microsoft account and/or Azure Active Directory account with access to OneDrive for Business
+* [Register your app for OneDrive authentication](https://dev.onedrive.com/app-registration.htm#register-your-app-for-onedrive)
 * Knowledge of Windows Universal app development
 
 ### Download the sample
@@ -22,7 +23,12 @@ To run the sample, you will need:
 
 ### Associate the sample app with the Windows Store
 
-Before you can run the sample to use with OneDrive Consumer, you must associate the app with the Windows Store. To do this, right-click the OneDrivePhotoBrowser project and choose **Store** | **Associate app with store**. Associating the app with the Windows store is reqiured for authentication to succeed.
+* Before you can run the sample to use with OneDrive Consumer, you must associate the app with the Windows Store. To do this, right-click the OneDrivePhotoBrowser project and choose **Store** | **Associate app with store**. Associating the app with the Windows store is reqiured for authentication to succeed.
+* Get the **App ID** and **Redirect URI** for your app and replace the values in *AccountSelection.xaml.cs* file for the following lines:
+```csharp
+    private readonly string oneDriveConsumerClientId = "<Insert your OneDrive Consumer client id>";
+    private readonly string oneDriveConsumerReturnUrl = "<Insert your OneDrive Consumer client Redirect id>";
+```
 
 OneDrive for Business authentication does not require store association.
 
