@@ -47,12 +47,12 @@ namespace OneDrivePhotoBrowser
         }
         
         // Set these values to your app's ID and return URL.
-        private readonly string oneDriveForBusinessClientId = "Insert your OneDrive for Business client id";
+        private readonly string oneDriveForBusinessClientId = "<Insert your OneDrive for Business client id>";
         private readonly string oneDriveForBusinessReturnUrl = "http://localhost:8080";
         private readonly string oneDriveForBusinessBaseUrl = "https://graph.microsoft.com/";
 
-        private readonly string oneDriveConsumerClientId = "Insert your OneDrive Consumer client id";
-        private readonly string oneDriveConsumerReturnUrl = "https://login.live.com/oauth20_desktop.srf";
+        private readonly string oneDriveConsumerClientId = "<Insert your OneDrive Consumer client id>";
+        private readonly string oneDriveConsumerReturnUrl = "<Insert your OneDrive Consumer client Redirect id>";
         private readonly string oneDriveConsumerBaseUrl = "https://api.onedrive.com/v1.0";
         private readonly string[] scopes = new string[] { "onedrive.readonly", "wl.signin", "offline_access" };
 
