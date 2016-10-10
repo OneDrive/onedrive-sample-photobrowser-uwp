@@ -39,8 +39,8 @@ In order to authenticate using OneDrive for Business you'll need to enter your a
 Replace the following values at the top of the file with your application details:
 
 ```csharp
-    private readonly string oneDriveForBusinessClientId = "Insert your AAD client ID here";
-    private readonly string oneDriveForBusinessReturnUrl = "Insert your AAD return URL here";
+    private readonly string oneDriveForBusinessClientId = "<Insert your AAD client ID here>";
+    private readonly string oneDriveForBusinessReturnUrl = "<Insert your AAD return URL here>";
 ```
 
 For more details on setting up an application to access OneDrive for Business please read the [registration documentation](https://dev.onedrive.com/app-registration.htm#register-your-app-for-onedrive-for-business) for the API.
