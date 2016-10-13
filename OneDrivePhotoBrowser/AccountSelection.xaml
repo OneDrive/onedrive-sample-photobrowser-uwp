@@ -9,8 +9,11 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="200">
-            <Button x:Name="MsaButton" Content="Log in to MSA" HorizontalAlignment="Center" VerticalAlignment="Center" Click="MsaButton_Click" RelativePanel.AlignTopWithPanel="True" />
-            <Button x:Name="AadButton" Content="Log in to AAD" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AadButton_Click" RelativePanel.Below="MsaButton" RelativePanel.AlignBottomWithPanel="True"/>
+            <TextBlock x:Name="OneDriveTitleTextBlock" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,10">OneDrive</TextBlock>
+            <Button x:Name="MsaButton" Content="Log in to MSA" HorizontalAlignment="Center" Click="MsaButton_Click" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="OneDriveTitleTextBlock" Margin="0,0,0,10"/>
+            <Button x:Name="OnlineIdButton" Content="Log in with current user (OnlineId)" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OnlineId_Click" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,0,0,30" RelativePanel.Below="MsaButton" />
+            <TextBlock x:Name="ODBTitleTextBlock" RelativePanel.AlignHorizontalCenterWithPanel="True" Margin="0,0,0,10" RelativePanel.Below="OnlineIdButton">OneDrive For Business</TextBlock>
+            <Button x:Name="AadButton" Content="Log in to AAD" HorizontalAlignment="Center" Click="AadButton_Click" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.Below="ODBTitleTextBlock"/>
         </RelativePanel>
     </Grid>
 </Page>
