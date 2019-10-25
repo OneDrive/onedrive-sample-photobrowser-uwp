@@ -1,3 +1,13 @@
+---
+page_type: sample
+products:
+- office-onedrive
+languages:
+- csharp
+extensions:
+  contentType: samples
+  createdDate: 7/6/2016 2:11:22 PM
+---
 # OneDrive Photo Browser sample
 
 The OneDrive Photo Browser sample is a Windows Universal app that uses the OneDrive SDK for C#/.NET. 
